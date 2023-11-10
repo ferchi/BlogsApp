@@ -3,11 +3,12 @@ Prueba tecnica de Promass
 
 ## Capturas de Pantalla
 
-![alt text](https://i.postimg.cc/ZBxFFfPp/1-dashboard.png)
+![alt text](https://i.postimg.cc/vBpqykcq/1-dashboard.png)
 
-![alt text](https://i.postimg.cc/ZCRFpxWv/2-details.png)
+![alt text](https://i.postimg.cc/fT724HZC/2-details.png)
 
-![alt text](https://i.postimg.cc/K4QD1H8y/3-create.png)
+![alt text](https://i.postimg.cc/KvhqHXX4/3-create.png)
+
 
 ## Descarga
 
