@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "164889956190",
+    "project_id": "blogs-3dfcd",
+    "storage_bucket": "blogs-3dfcd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164889956190:android:096d95597c15b2fb0a49cf",
+        "android_client_info": {
+          "package_name": "com.jfsb.blogsapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDa_wTsODnTzij2GW6trjGGqB3pN9pPcWU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
