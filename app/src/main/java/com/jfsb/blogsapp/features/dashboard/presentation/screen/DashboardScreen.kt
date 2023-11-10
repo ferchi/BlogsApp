@@ -7,8 +7,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +35,7 @@ fun DashboardScreen(
     navController: NavHostController,
 ) {
     val scrollState = rememberScrollState()
+    val query: String by entryViewModel.query.observeAsState("")
 
     Scaffold(
         topBar = {
@@ -75,7 +79,6 @@ fun DashboardScreen(
                 .padding(contentPadding)
                 .verticalScroll(scrollState)
         ) {
-            entryViewModel.getAllEntries()
             val configuration = LocalConfiguration.current
             val screenHeight = configuration.screenHeightDp.dp
 
@@ -85,6 +88,25 @@ fun DashboardScreen(
                     .background(Color.White)
                     .padding(horizontal = 16.dp),
             ) {
+
+                OutlinedTextField(
+                    value = query,
+                    onValueChange = { entryViewModel.setQuery(it) },
+                    label = { Text("Buscar: ") },
+                    maxLines = 1,
+                    singleLine = true,
+                    leadingIcon = {
+                        Icon(
+                            Icons.Default.Search,
+                            contentDescription = "Icono de buscar",
+                            tint = Color.Black
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
+                )
+
                 Spacer(modifier = Modifier.height(16.dp))
 
                 when (val state = entryViewModel.entriesListState.value) {

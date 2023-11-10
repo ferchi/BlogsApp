@@ -38,6 +38,9 @@ class EntryViewModel @Inject constructor(
     private val _content: MutableLiveData<String> = MutableLiveData()
     val content: LiveData<String> = _content
 
+    private val _query: MutableLiveData<String> = MutableLiveData()
+    val query: LiveData<String> = _query
+
     private val _isEntryAddedState = mutableStateOf<DefaultResult<Void?>>(DefaultResult.Success(null))
     val isEntryAddedState: State<DefaultResult<Void?>> = _isEntryAddedState
 
@@ -55,6 +58,12 @@ class EntryViewModel @Inject constructor(
 
     fun setCurrentEntry(entry: EntryModel) {
         _currentEntry.value = entry
+    }
+
+    fun setQuery(query: String) {
+        _query.value = query
+        if (query == "") getAllEntries()
+        else searchEntry(query)
     }
 
     fun clearTicketData(){
@@ -82,6 +91,7 @@ class EntryViewModel @Inject constructor(
                     Toast.LENGTH_LONG
                 ).show()
                 clearTicketData()
+                getAllEntries()
             }
         }
     }
@@ -90,5 +100,26 @@ class EntryViewModel @Inject constructor(
         return (_title.value != null && _title.value != "")
                 && (_author.value != null && _author.value != "")
                 && (_content.value != null && _content.value != "")
+    }
+
+    fun searchEntry(query: String) {
+        when (val currentState = _entriesListState.value) {
+            is DefaultResult.Success<*> -> {
+                val filteredList = (currentState.data as List<EntryModel>).filter {
+                    it.title?.contains(query, true) ?: false
+                            || it.author?.contains(query, true) ?: false
+                            || it.content?.contains(query, true) ?: false
+                }
+                _entriesListState.value = DefaultResult.Success(filteredList)
+            }
+
+            else -> {
+                // No hagas nada si el estado no es de éxito, para no perder información
+            }
+        }
+    }
+
+    init {
+        getAllEntries()
     }
 }
