@@ -3,12 +3,15 @@ Prueba tecnica de Promass
 
 ## Capturas de Pantalla
 
+<div style="display: flex; justify-content: space-between;">
+
 ![alt text](https://i.postimg.cc/vBpqykcq/1-dashboard.png)
 
 ![alt text](https://i.postimg.cc/fT724HZC/2-details.png)
 
 ![alt text](https://i.postimg.cc/KvhqHXX4/3-create.png)
 
+</div>
 
 ## Descarga
 
