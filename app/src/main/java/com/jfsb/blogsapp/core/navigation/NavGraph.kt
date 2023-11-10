@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.jfsb.blogsapp.features.dashboard.presentation.screen.DashboardScreen
 import com.jfsb.blogsapp.features.dashboard.presentation.screen.EntryDetailScreen
+import com.jfsb.blogsapp.features.dashboard.presentation.screen.FormEntryScreen
 import com.jfsb.blogsapp.features.dashboard.presentation.viewmodel.EntryViewModel
 
 @Composable
@@ -25,6 +26,13 @@ fun NavGraph(
         }
         composable(Routes.Details.route) {
             EntryDetailScreen(
+                entryViewModel = entryViewModel,
+                navController = navHostController,
+            )
+        }
+
+        composable(Routes.Form.route) {
+            FormEntryScreen(
                 entryViewModel = entryViewModel,
                 navController = navHostController,
             )

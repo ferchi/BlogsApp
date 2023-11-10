@@ -58,6 +58,7 @@ fun DashboardScreen(
                 actions = {
                     IconButton(onClick = {
                         entryViewModel.clearTicketData()
+                        navController.navigate(Routes.Form.route)
                     }) {
                         Icon(
                             Icons.Default.Add,

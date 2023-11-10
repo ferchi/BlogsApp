@@ -1,5 +1,6 @@
 package com.jfsb.blogsapp.features.dashboard.presentation.viewmodel
 
+import android.widget.Toast
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
@@ -12,13 +13,15 @@ import com.jfsb.blogsapp.features.dashboard.domain.usecase.CreateEntryUseCase
 import com.jfsb.blogsapp.features.dashboard.domain.usecase.GetAllEntriesUseCase
 import javax.inject.Inject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class EntryViewModel @Inject constructor(
     private val createEntryUseCase: CreateEntryUseCase,
-    private val getAllEntriesUseCase: GetAllEntriesUseCase
-) : ViewModel() {
+    private val getAllEntriesUseCase: GetAllEntriesUseCase,
+    @ApplicationContext private val context: android.content.Context
+    ) : ViewModel() {
 
     private val _entriesListState = mutableStateOf<DefaultResult<List<EntryModel>>>(DefaultResult.Loading)
     val entriesListState: State<DefaultResult<List<EntryModel>>> = _entriesListState
@@ -73,6 +76,12 @@ class EntryViewModel @Inject constructor(
         viewModelScope.launch {
             createEntryUseCase.invoke(entry).collect { response ->
                 _isEntryAddedState.value = response
+                Toast.makeText(
+                    context,
+                    "Entrada cargada correctamente",
+                    Toast.LENGTH_LONG
+                ).show()
+                clearTicketData()
             }
         }
     }
