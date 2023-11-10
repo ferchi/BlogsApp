@@ -10,12 +10,14 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -24,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.jfsb.blogsapp.core.navigation.Routes
 import com.jfsb.blogsapp.core.network.models.DefaultResult
+import com.jfsb.blogsapp.core.utils.Utils
 import com.jfsb.blogsapp.features.dashboard.data.datasource.remote.model.EntryModel
 import com.jfsb.blogsapp.features.dashboard.presentation.view.EntryCardView
 import com.jfsb.blogsapp.features.dashboard.presentation.viewmodel.EntryViewModel
@@ -36,6 +39,12 @@ fun DashboardScreen(
 ) {
     val scrollState = rememberScrollState()
     val query: String by entryViewModel.query.observeAsState("")
+    val utils = Utils(LocalContext.current)
+    val isInternetAvailable: Boolean by entryViewModel.isInternetAvailable.observeAsState(false)
+
+    LaunchedEffect(key1 = 0, block = {
+        entryViewModel.setInternetAvailable(utils.isInternetAvailable())
+    })
 
     Scaffold(
         topBar = {
@@ -61,8 +70,11 @@ fun DashboardScreen(
                 ),
                 actions = {
                     IconButton(onClick = {
-                        entryViewModel.clearTicketData()
-                        navController.navigate(Routes.Form.route)
+                        entryViewModel.setInternetAvailable(utils.isInternetAvailable())
+                        if (isInternetAvailable) {
+                            entryViewModel.clearTicketData()
+                            navController.navigate(Routes.Form.route)
+                        }
                     }) {
                         Icon(
                             Icons.Default.Add,

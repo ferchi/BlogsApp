@@ -44,6 +44,8 @@ class EntryViewModel @Inject constructor(
     private val _isEntryAddedState = mutableStateOf<DefaultResult<Void?>>(DefaultResult.Success(null))
     val isEntryAddedState: State<DefaultResult<Void?>> = _isEntryAddedState
 
+    private val _isInternetAvailable : MutableLiveData<Boolean> = MutableLiveData(true)
+    val isInternetAvailable: LiveData<Boolean> = _isInternetAvailable
     fun setTitle(title: String) {
         _title.value = title
     }
@@ -64,6 +66,17 @@ class EntryViewModel @Inject constructor(
         _query.value = query
         if (query == "") getAllEntries()
         else searchEntry(query)
+    }
+
+    fun setInternetAvailable(isAvailable: Boolean) {
+        _isInternetAvailable.value = isAvailable
+        if (!isAvailable) {
+            Toast.makeText(
+                context,
+                "No hay conexión a internet",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     fun clearTicketData(){
