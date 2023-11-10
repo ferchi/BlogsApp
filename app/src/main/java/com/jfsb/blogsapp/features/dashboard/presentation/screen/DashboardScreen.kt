@@ -9,7 +9,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.jfsb.blogsapp.core.navigation.Routes
 import com.jfsb.blogsapp.core.network.models.DefaultResult
 import com.jfsb.blogsapp.features.dashboard.data.datasource.remote.model.EntryModel
 import com.jfsb.blogsapp.features.dashboard.presentation.view.EntryCardView
@@ -28,7 +28,7 @@ import com.jfsb.blogsapp.features.dashboard.presentation.viewmodel.EntryViewMode
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
-    ticketsViewModel: EntryViewModel,
+    entryViewModel: EntryViewModel,
     navController: NavHostController,
 ) {
     val scrollState = rememberScrollState()
@@ -57,7 +57,7 @@ fun DashboardScreen(
                 ),
                 actions = {
                     IconButton(onClick = {
-                        ticketsViewModel.clearTicketData()
+                        entryViewModel.clearTicketData()
                     }) {
                         Icon(
                             Icons.Default.Add,
@@ -74,7 +74,7 @@ fun DashboardScreen(
                 .padding(contentPadding)
                 .verticalScroll(scrollState)
         ) {
-            ticketsViewModel.getAllEntries()
+            entryViewModel.getAllEntries()
             val configuration = LocalConfiguration.current
             val screenHeight = configuration.screenHeightDp.dp
 
@@ -86,7 +86,7 @@ fun DashboardScreen(
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
 
-                when (val state = ticketsViewModel.entriesListState.value) {
+                when (val state = entryViewModel.entriesListState.value) {
                     is DefaultResult.Loading -> {
                         Box(modifier = Modifier.fillMaxSize()) {
                             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
@@ -102,7 +102,8 @@ fun DashboardScreen(
                                     ),
                                     entry = (state.data as List<EntryModel>)[index],
                                     onClick = {
-                                        ticketsViewModel.setCurrentEntry((state.data)[index])
+                                        entryViewModel.setCurrentEntry((state.data)[index])
+                                        navController.navigate(Routes.Details.route)
                                     },
                                 )
                             }
